@@ -6,6 +6,7 @@ CREATE TABLE "characters" (
     "first_appearance_id" INTEGER NOT NULL,
     "abilities" VARCHAR(255),
     "personality" VARCHAR(100),
+    "photo_url" VARCHAR(255),
 
     CONSTRAINT "characters_pkey" PRIMARY KEY ("character_id")
 );
@@ -27,6 +28,7 @@ CREATE TABLE "productions" (
     "type" VARCHAR(10) NOT NULL,
     "year" INTEGER NOT NULL,
     "dcu_order" INTEGER NOT NULL,
+    "photo_url" VARCHAR(255),
 
     CONSTRAINT "productions_pkey" PRIMARY KEY ("production_id")
 );
