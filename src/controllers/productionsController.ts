@@ -53,3 +53,40 @@ export const getProductionById = async (req: Request, res: Response) => {
         return serverErrorMessage(res, error);
     }
 }
+
+export const postProduction = async (req: Request, res: Response) => {
+    try {
+        const data = req.body;
+
+        if (!data || typeof data !== "object") {
+            return res.status(400).json({
+                message: "Invalid JSON request body"
+            });
+        }
+
+        const requiredFields = ["title", "type", "year", "dcu_order", "photo_url"];
+        const missingFields = requiredFields.filter((field) => {
+            const value = data[field];
+            return (
+                value === undefined ||
+                value === null ||
+                (typeof value === "string" && value.trim() === "")
+            );
+        });
+
+        if (missingFields.length > 0) {
+            return res.status(400).json({
+                message: `The following required fields are missing or empty: ${missingFields.join(", ")}`
+            });
+        }
+
+        const newProduction = await productionsModel.createProduction(data);
+
+        return res.status(201).json({
+            message: "Production created successfully",
+            data: newProduction
+        });
+    } catch (error) {
+        return serverErrorMessage(res, error);
+    }
+}
