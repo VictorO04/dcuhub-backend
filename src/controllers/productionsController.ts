@@ -9,6 +9,8 @@ const serverErrorMessage = (res: Response, error: unknown) => {
     });
 }
 
+const validId = (id: number) => !Number.isNaN(id) && Number.isInteger(id) && id > 0;
+
 export const getAllProductions = async (req: Request, res: Response) => {
     try {
         const productions = await productionsModel.findAllProductions();
@@ -18,7 +20,34 @@ export const getAllProductions = async (req: Request, res: Response) => {
             message: productions.length === 0
                 ? "No productions are currently registered"
                 : "Productions retrieved successfully",
-            productions
+            data: productions
+        });
+    } catch (error) {
+        return serverErrorMessage(res, error);
+    }
+}
+
+export const getProductionById = async (req: Request, res: Response) => {
+    try {
+        const id = Number(req.params.id);
+
+        if (!validId(id)) {
+            return res.status(400).json({
+                message: `Invalid ID parameter`
+            });
+        }
+
+        const production = await productionsModel.findProductionById(id);
+
+        if (!production) {
+            return res.status(404).json({
+                message: `Production with ID ${id} not found`
+            });
+        }
+
+        res.status(200).json({
+            message: `Production with ID ${id} found`,
+            data: production
         });
     } catch (error) {
         return serverErrorMessage(res, error);
