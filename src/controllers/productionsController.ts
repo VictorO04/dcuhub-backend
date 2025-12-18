@@ -44,7 +44,7 @@ export const getAllProductions = async (req: Request, res: Response) => {
 
             if (Number.isNaN(yearNumber)) {
                 return res.status(400).json({
-                    message: "Year must be a number"
+                    message: "Field year must be a number"
                 });
             }
 
@@ -118,6 +118,18 @@ export const postProduction = async (req: Request, res: Response) => {
             });
         }
 
+        if (typeof data.title !== "string" || typeof data.type !== "string" || typeof data.photo_url !== "string") {
+            return res.status(400).json({
+                message: "Fields title, type and photo_url must be a string"
+            });
+        }
+
+        if (typeof data.year !== "number" || typeof data.dcu_order !== "number") {
+            return res.status(400).json({
+                message: "Fields year and dcu_order must be a number"
+            });
+        }
+
         const newProduction = await productionsModel.createProduction(data);
 
         res.status(201).json({
@@ -182,6 +194,26 @@ export const patchProduction = async (req:Request, res: Response) => {
             return res.status(400).json({
                 message: "Request body must contain at least one field"
             });
+        }
+
+        if (data.title !== undefined && typeof data.title !== "string") {
+            return res.status(400).json({ message: "Field title must be a string" });
+        }
+
+        if (data.type !== undefined && typeof data.type !== "string") {
+            return res.status(400).json({ message: "Field type must be a string" });
+        }
+
+        if (data.photo_url !== undefined && typeof data.photo_url !== "string") {
+            return res.status(400).json({ message: "Field photo_url must be a string" });
+        }
+
+        if (data.year !== undefined && typeof data.year !== "number") {
+            return res.status(400).json({ message: "Field year must be a number" });
+        }
+
+        if (data.dcu_order !== undefined && typeof data.dcu_order !== "number") {
+            return res.status(400).json({ message: "Field dcu_order must be a number" });
         }
 
         const updatedProduction = await productionsModel.updateProduction(id, data);
