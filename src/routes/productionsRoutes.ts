@@ -7,5 +7,6 @@ router.get("/", productionsControllers.getAllProductions);
 router.get("/:id", productionsControllers.getProductionById);
 router.post("/", productionsControllers.postProduction);
 router.delete("/:id", productionsControllers.deleteProduction);
+router.patch("/:id", productionsControllers.patchProduction);
 
 export default router;

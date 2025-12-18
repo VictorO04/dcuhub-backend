@@ -21,8 +21,8 @@ model characters {
 model movies {
   movie_id      Int         @id @default(autoincrement())
   production_id Int
-  director      String?     @db.VarChar(50)
-  synopsis      String?
+  director      String     @db.VarChar(50)
+  synopsis      String
   productions   productions @relation(fields: [production_id], references: [production_id], onDelete: Cascade, onUpdate: NoAction, map: "fk_movies_production")
 }
 
@@ -32,7 +32,7 @@ model productions {
   type          String       @db.VarChar(10)
   year          Int
   dcu_order     Int
-  photo_url     String?      @db.VarChar(255)
+  photo_url     String      @db.VarChar(255)
   characters    characters[]
   movies        movies[]
   series        series[]
@@ -41,8 +41,8 @@ model productions {
 model series {
   series_id     Int         @id @default(autoincrement())
   production_id Int
-  director      String?     @db.VarChar(50)
-  synopsis      String?
+  director      String     @db.VarChar(50)
+  synopsis      String
   status        String      @db.VarChar(20)
   productions   productions @relation(fields: [production_id], references: [production_id], onDelete: Cascade, onUpdate: NoAction, map: "fk_series_production")
 }
