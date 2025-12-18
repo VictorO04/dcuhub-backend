@@ -1,7 +1,8 @@
 import { prisma } from "../../.lib/prisma.js";
 
-export const findAllCharacters = async () => {
+export const findAllCharacters = async (filters: any) => {
     const characters = await prisma.characters.findMany({
+        where: filters,
         orderBy: { character: "asc" },
         include: {
             productions: {
