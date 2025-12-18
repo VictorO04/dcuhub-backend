@@ -1,6 +1,7 @@
 import express from "express";
 import dotenv from "dotenv";
 import productionsRoutes from "./routes/productionsRoutes.js";
+import charactersRoutes from "./routes/charactersRoutes.js";
 
 const app = express();
 app.use(express.json());
@@ -13,6 +14,7 @@ app.get("/", (req: express.Request, res: express.Response) => {
 });
 
 app.use("/productions", productionsRoutes);
+app.use("/characters", charactersRoutes);
 
 app.listen(serverPort, () => {
     console.log(`Server conected to: http://localhost:${serverPort}`);

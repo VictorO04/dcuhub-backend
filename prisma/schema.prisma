@@ -10,11 +10,11 @@ datasource db {
 model characters {
   character_id        Int         @id @default(autoincrement())
   character           String      @unique @db.VarChar(50)
-  identity            String?     @db.VarChar(50)
+  identity            String     @db.VarChar(50)
   first_appearance_id Int
-  abilities           String?     @db.VarChar(255)
-  personality         String?     @db.VarChar(100)
-  photo_url           String?     @db.VarChar(255)
+  abilities           String     @db.VarChar(255)
+  personality         String     @db.VarChar(100)
+  photo_url           String     @db.VarChar(255)
   productions         productions @relation(fields: [first_appearance_id], references: [production_id], onDelete: Cascade, onUpdate: NoAction, map: "fk_characters_first_appearance")
 }
 

@@ -5,7 +5,7 @@ import { patchProductiondto } from "../dtos/updateProduction.dto.js";
 export const findAllProductions = async (filters: any) => {
     return await prisma.productions.findMany({
         where: filters,
-        orderBy: { dcu_order: "desc" }
+        orderBy: { dcu_order: "asc" }
     });
 }
 
