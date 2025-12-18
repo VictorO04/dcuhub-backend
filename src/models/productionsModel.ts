@@ -2,8 +2,9 @@ import { prisma } from "../../.lib/prisma.js";
 import { createProductiondto } from "../dtos/createProduction.dto.js";
 import { patchProductiondto } from "../dtos/updateProduction.dto.js";
 
-export const findAllProductions = async () => {
+export const findAllProductions = async (filters: any) => {
     return await prisma.productions.findMany({
+        where: filters,
         orderBy: { dcu_order: "desc" }
     });
 }

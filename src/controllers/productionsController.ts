@@ -15,7 +15,34 @@ const validId = (id: number) => !Number.isNaN(id) && Number.isInteger(id) && id 
 
 export const getAllProductions = async (req: Request, res: Response) => {
     try {
-        const productions = await productionsModel.findAllProductions();
+        const { title, type, year } = req.query;
+
+        const filters: any = {}
+
+        if (title) {
+            filters.title = {
+                contains: String(title),
+                mode: "insensitive"
+            }
+        }
+
+        if (type) {
+            filters.type = String(type);
+        }
+
+        if (year) {
+            const yearNumber = Number(year);
+
+            if (Number.isNaN(yearNumber)) {
+                return res.status(400).json({
+                    message: "Year must be a number"
+                });
+            }
+
+            filters.year = yearNumber
+        }
+
+        const productions = await productionsModel.findAllProductions(filters);
 
         res.status(200).json({
             total: productions.length,
