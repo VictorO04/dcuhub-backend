@@ -10,11 +10,17 @@ const serverErrorMessage = (res: Response, error: unknown) => {
     });
 }
 
+interface charactersFilters {
+    character?: { contains: string; mode: "insensitive" }
+    identity?: { contains: string; mode: "insensitive" }
+    first_appearance?: { contains: string; mode: "insensitive" }
+}
+
 export const getAllCharacters = async (req: Request, res: Response) => {
     try {
         const { character, identity, first_appearance } = req.query;
 
-        const filters: any = {}
+        const filters: charactersFilters = {}
 
         if (character) {
             filters.character = {
@@ -74,6 +80,18 @@ export const postCharacter = async (req: Request, res: Response) => {
         if (missingFields.length > 0) {
             return res.status(400).json({
                 message: `The following required fields are missing or empty: ${missingFields.join(", ")}`
+            });
+        }
+
+        if (typeof data.character !== "string" || typeof data.identity !== "string" || typeof data.abilities !== "string" || typeof data.personality !== "string" || typeof data.photo_url !== "string") {
+            return res.status(400).json({
+                message: "Fields character, identity, abilities, personality and photo_url must be a string"
+            });
+        }
+
+        if (typeof data.first_appearance_id !== "number") {
+            return res.status(400).json({
+                message: "Field first_appearance_id must be a number"
             });
         }
 
