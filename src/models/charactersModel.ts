@@ -1,4 +1,5 @@
 import { prisma } from "../../.lib/prisma.js";
+import { createCharacterdto } from "../dtos/createCharacter.dto.js";
 
 export const findAllCharacters = async (filters: any) => {
     const characters = await prisma.characters.findMany({
@@ -19,4 +20,10 @@ export const findAllCharacters = async (filters: any) => {
       first_appearance: productions?.title ?? null
     })
   );
+}
+
+export const createCharacter = async (data: createCharacterdto) => {
+    return await prisma.characters.create({
+        data
+    });
 }

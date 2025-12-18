@@ -114,7 +114,7 @@ export const postProduction = async (req: Request, res: Response) => {
 
         const newProduction = await productionsModel.createProduction(data);
 
-        return res.status(201).json({
+        res.status(201).json({
             message: "Production created successfully",
             data: newProduction
         });

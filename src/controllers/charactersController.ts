@@ -1,5 +1,6 @@
 import * as charactersModel from "../models/charactersModel.js";
 import { Request, Response } from "express";
+import { createCharacterdto } from "../dtos/createCharacter.dto.js";
 
 const serverErrorMessage = (res: Response, error: unknown) => {
     console.error(error);
@@ -42,9 +43,46 @@ export const getAllCharacters = async (req: Request, res: Response) => {
                 total: characters.length,
                 message: characters.length === 0
                     ? "No characters are currently registered"
-                    : "characters retrieved successfully",
+                    : "Characters retrieved successfully",
                 data: characters
                 });
+    } catch (error) {
+        return serverErrorMessage(res, error);
+    }
+}
+
+export const postCharacter = async (req: Request, res: Response) => {
+    try {
+        const data: createCharacterdto = req.body;
+
+        if (!data || typeof data !== "object") {
+            return res.status(400).json({
+                message: "Invalid JSON request body"
+            });
+        }
+
+         const requiredFields: (keyof createCharacterdto)[] = ["character", "identity", "first_appearance_id", "abilities", "personality", "photo_url"];
+         const missingFields = requiredFields.filter((field) => {
+            const value = data[field];
+            return (
+                value === undefined ||
+                value === null ||
+                (typeof value === "string" && value.trim() === "")
+            );
+        });
+
+        if (missingFields.length > 0) {
+            return res.status(400).json({
+                message: `The following required fields are missing or empty: ${missingFields.join(", ")}`
+            });
+        }
+
+        const newCharacter = await charactersModel.createCharacter(data);
+
+        res.status(201).json({
+            message: "Character created successfully",
+            data: newCharacter
+        });
     } catch (error) {
         return serverErrorMessage(res, error);
     }

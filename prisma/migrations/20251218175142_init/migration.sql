@@ -2,11 +2,11 @@
 CREATE TABLE "characters" (
     "character_id" SERIAL NOT NULL,
     "character" VARCHAR(50) NOT NULL,
-    "identity" VARCHAR(50),
+    "identity" VARCHAR(50) NOT NULL,
     "first_appearance_id" INTEGER NOT NULL,
-    "abilities" VARCHAR(255),
-    "personality" VARCHAR(100),
-    "photo_url" VARCHAR(255),
+    "abilities" VARCHAR(255) NOT NULL,
+    "personality" VARCHAR(100) NOT NULL,
+    "photo_url" VARCHAR(255) NOT NULL,
 
     CONSTRAINT "characters_pkey" PRIMARY KEY ("character_id")
 );
@@ -15,8 +15,8 @@ CREATE TABLE "characters" (
 CREATE TABLE "movies" (
     "movie_id" SERIAL NOT NULL,
     "production_id" INTEGER NOT NULL,
-    "director" VARCHAR(50),
-    "synopsis" TEXT,
+    "director" VARCHAR(50) NOT NULL,
+    "synopsis" TEXT NOT NULL,
 
     CONSTRAINT "movies_pkey" PRIMARY KEY ("movie_id")
 );
@@ -28,7 +28,7 @@ CREATE TABLE "productions" (
     "type" VARCHAR(10) NOT NULL,
     "year" INTEGER NOT NULL,
     "dcu_order" INTEGER NOT NULL,
-    "photo_url" VARCHAR(255),
+    "photo_url" VARCHAR(255) NOT NULL,
 
     CONSTRAINT "productions_pkey" PRIMARY KEY ("production_id")
 );
@@ -37,8 +37,8 @@ CREATE TABLE "productions" (
 CREATE TABLE "series" (
     "series_id" SERIAL NOT NULL,
     "production_id" INTEGER NOT NULL,
-    "director" VARCHAR(50),
-    "synopsis" TEXT,
+    "director" VARCHAR(50) NOT NULL,
+    "synopsis" TEXT NOT NULL,
     "status" VARCHAR(20) NOT NULL,
 
     CONSTRAINT "series_pkey" PRIMARY KEY ("series_id")
