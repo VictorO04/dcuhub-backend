@@ -27,7 +27,10 @@ export const getAllProductions = async (req: Request, res: Response) => {
         }
 
         if (type) {
-            filters.type = String(type);
+            filters.type = {
+                contains: String(type),
+                mode: "insensitive"
+            }
         }
 
         if (year) {
