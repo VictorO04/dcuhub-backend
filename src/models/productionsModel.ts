@@ -18,3 +18,9 @@ export const createProduction = async (data: createProductiondto) => {
         data
     });
 }
+
+export const deleteProduction = async (id: number) => {
+    return await prisma.productions.delete({
+        where: { production_id: id }
+    });
+}

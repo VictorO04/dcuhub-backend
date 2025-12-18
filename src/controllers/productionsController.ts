@@ -90,3 +90,32 @@ export const postProduction = async (req: Request, res: Response) => {
         return serverErrorMessage(res, error);
     }
 }
+
+export const deleteProduction = async (req: Request, res: Response) => {
+    try {
+        const id = Number(req.params.id);
+
+        if (!validId(id)) {
+            return res.status(400).json({
+                message: `Invalid ID parameter`
+            });
+        }
+
+        const production = await productionsModel.findProductionById(id);
+
+        if (!production) {
+            return res.status(404).json({
+                message: `Production with ID ${id} not found`
+            });
+        }
+
+        const deletedProduction = await productionsModel.deleteProduction(id);
+
+        res.status(200).json({
+            message: `Production with ID ${id} deleted successfully`,
+            data: deletedProduction
+        });
+    } catch (error) {
+        return serverErrorMessage(res, error);
+    }
+}
