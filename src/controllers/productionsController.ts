@@ -13,11 +13,17 @@ const serverErrorMessage = (res: Response, error: unknown) => {
 
 const validId = (id: number) => !Number.isNaN(id) && Number.isInteger(id) && id > 0;
 
+interface ProductionFilters {
+    title?: { contains: string; mode: "insensitive" };
+    type?: { contains: string; mode: "insensitive" };
+    year?: number;
+}
+
 export const getAllProductions = async (req: Request, res: Response) => {
     try {
         const { title, type, year } = req.query;
 
-        const filters: any = {}
+        const filters: ProductionFilters = {}
 
         if (title) {
             filters.title = {
