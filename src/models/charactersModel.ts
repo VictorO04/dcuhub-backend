@@ -22,6 +22,28 @@ export const findAllCharacters = async (filters: any) => {
   );
 }
 
+export const findCharacterById = async (id:number) => {
+    const character = await prisma.characters.findUnique({
+        where: { character_id: id },
+        include: {
+            productions: {
+                select: {
+                    title: true
+                }
+            }
+        }
+    });
+
+    if (!character) return null;
+
+    const { productions, first_appearance_id, ...rest } = character;
+
+    return {
+        ...rest,
+        first_appearance: productions?.title ?? null
+    };
+}
+
 export const createCharacter = async (data: createCharacterdto) => {
     return await prisma.characters.create({
         data

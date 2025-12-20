@@ -10,6 +10,8 @@ const serverErrorMessage = (res: Response, error: unknown) => {
     });
 }
 
+const validId = (id: number) => !Number.isNaN(id) && Number.isInteger(id) && id > 0;
+
 interface charactersFilters {
     character?: { contains: string; mode: "insensitive" }
     identity?: { contains: string; mode: "insensitive" }
@@ -55,6 +57,29 @@ export const getAllCharacters = async (req: Request, res: Response) => {
     } catch (error) {
         return serverErrorMessage(res, error);
     }
+}
+
+export const getCharacterById = async (req: Request, res: Response) => {
+    const id = Number(req.params.id);
+
+    if (!validId(id)) {
+        return res.status(400).json({
+            message: `Invalid ID parameter`
+        });
+    }
+
+    const character = await charactersModel.findCharacterById(id);
+
+    if (!character) {
+        return res.status(404).json({
+            message: `Character with ID ${id} not found`
+        });
+    }
+
+    res.status(200).json({
+        message: `Character with ID ${id} found`,
+        data: character
+    });
 }
 
 export const postCharacter = async (req: Request, res: Response) => {
