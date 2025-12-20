@@ -6,5 +6,6 @@ const router = Router();
 router.get("/", charactersController.getAllCharacters);
 router.get("/:id", charactersController.getCharacterById);
 router.post("/", charactersController.postCharacter);
+router.delete("/:id", charactersController.deleteCharacter);
 
 export default router;

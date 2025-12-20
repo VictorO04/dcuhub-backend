@@ -49,3 +49,9 @@ export const createCharacter = async (data: createCharacterdto) => {
         data
     });
 }
+
+export const deleteCharacter = async (id: number) => {
+    return await prisma.characters.delete({
+        where: { character_id: id }
+    });
+}
